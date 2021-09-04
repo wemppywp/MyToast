@@ -134,8 +134,518 @@ class CustomToast {
                     toast.view = layout
                     toast.show()
                 }
+                TOAST_FAILED -> {
+                    layout.custom_toast_image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_failed
+                        )
+                    )
+                    DrawableCompat.setTint(
+                        DrawableCompat.wrap(layout.custom_toast_image.drawable),
+                        ContextCompat.getColor(context, failedToastColor)
+                    )
+                    startPulseAnimation(context, layout)
+                    layout.colorView.backgroundTintList =
+                        ContextCompat.getColorStateList(context, failedToastColor)
+
+                    val drawable =
+                        ContextCompat.getDrawable(context, R.drawable.toast_round_background)
+                    drawable?.colorFilter = PorterDuffColorFilter(
+                        ContextCompat.getColor(context, failedBackgroundToastColor),
+                        PorterDuff.Mode.MULTIPLY
+                    )
+                    layout.background = drawable
+                    layout.custom_toast_text.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            failedToastColor
+                        )
+                    )
+                    layout.custom_toast_text.text =
+                        if (title.isNullOrBlank()) TOAST_FAILED else title
+
+                    setDescriptionDetails(
+                        font,
+                        Color.BLACK,
+                        message,
+                        layout.custom_toast_description
+                    )
+
+                    val toast = Toast(context.applicationContext)
+                    startTimer(duration, toast)
+
+                    setGravity(position, toast)
+                    toast.view = layout//setting the view of custom toast layout
+                    toast.show()
+                }
+                TOAST_NO_INTERNET -> {
+                    layout.custom_toast_image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_no_internet
+                        )
+                    )
+                    DrawableCompat.setTint(
+                        DrawableCompat.wrap(layout.custom_toast_image.drawable),
+                        ContextCompat.getColor(context, noInternetToastColor)
+                    )
+                    startPulseAnimation(context, layout)
+                    layout.colorView.backgroundTintList =
+                        ContextCompat.getColorStateList(context, noInternetToastColor)
+
+                    setBackgroundAndFilter(
+                        R.drawable.toast_round_background,
+                        noInternetBackgroundToastColor, layout, context
+                    )
+
+                    layout.custom_toast_text.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            noInternetToastColor
+                        )
+                    )
+                    layout.custom_toast_text.text =
+                        if (title.isNullOrBlank()) TOAST_NO_INTERNET else title
+
+                    setDescriptionDetails(font, Color.BLACK, message, layout.custom_toast_description)
+
+                    val toast = Toast(context.applicationContext)
+                    startTimer(duration, toast)
+
+                    setGravity(position, toast)
+                    toast.view = layout//setting the view of custom toast layout
+                    toast.show()
+                }
             }
         }
+
+        fun createColorToast(
+            context: Activity,
+            title: String? = null,
+            message: String,
+            style: String,
+            position: Int,
+            duration: Long,
+            font: Typeface?
+        ){
+            layoutInflater = LayoutInflater.from(context)
+            val layout = layoutInflater.inflate(
+                R.layout.full_color_toast,
+                (context).findViewById(R.id.color_toast_view)
+            )
+            when (style) {
+                TOAST_SUCCESS -> {
+                    layout.color_toast_image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_check_green
+                        )
+                    )
+                    DrawableCompat.setTint(
+                        DrawableCompat.wrap(layout.color_toast_image.drawable),
+                        ContextCompat.getColor(context, successToastColor)
+                    )
+
+                    // Pulse Animation for Icon
+                    val pulseAnimation = AnimationUtils.loadAnimation(context, R.anim.pulse)
+                    layout.color_toast_image.startAnimation(pulseAnimation)
+
+                    // round background color
+                    setBackgroundAndFilter(
+                        R.drawable.toast_round_background,
+                        successToastColor, layout, context
+                    )
+
+                    // Setting up the color for title & Message text
+                    layout.color_toast_text.setTextColor(Color.WHITE)
+                    layout.color_toast_text.text =
+                        if (title.isNullOrBlank()) TOAST_SUCCESS else title
+
+                    setDescriptionDetails(font, Color.WHITE, message, layout.color_toast_description)
+
+                    // init toast
+                    val toast = Toast(context.applicationContext)
+                    startTimer(duration, toast)
+
+                    // Setting Toast Gravity
+                    setGravity(position, toast)
+
+                    // Setting layout to toast
+                    toast.view = layout
+                    toast.show()
+                }
+                TOAST_FAILED -> {
+                    layout.color_toast_image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_failed
+                        )
+                    )
+                    DrawableCompat.setTint(
+                        DrawableCompat.wrap(layout.color_toast_image.drawable),
+                        ContextCompat.getColor(context, failedToastColor)
+                    )
+                    // Pulse Animation for Icon
+                    val pulseAnimation = AnimationUtils.loadAnimation(context, R.anim.pulse)
+                    layout.color_toast_image.startAnimation(pulseAnimation)
+
+                    // round background color
+                    setBackgroundAndFilter(
+                        R.drawable.toast_round_background,
+                        failedToastColor, layout, context
+                    )
+
+                    // Setting up the color for title & Message text
+                    layout.color_toast_text.setTextColor(Color.WHITE)
+                    layout.color_toast_text.text = if (title.isNullOrBlank()) TOAST_FAILED else title
+
+                    setDescriptionDetails(font, Color.WHITE, message, layout.color_toast_description)
+
+                    // init toast
+                    val toast = Toast(context.applicationContext)
+                    startTimer(duration, toast)
+
+                    // Setting Toast Gravity
+                    setGravity(position, toast)
+
+                    // Setting layout to toast
+                    toast.view = layout
+                    toast.show()
+                }
+                TOAST_NO_INTERNET -> {
+                    layout.color_toast_image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_no_internet
+                        )
+                    )
+                    DrawableCompat.setTint(
+                        DrawableCompat.wrap(layout.color_toast_image.drawable),
+                        ContextCompat.getColor(context, noInternetToastColor)
+                    )
+                    // Pulse Animation for Icon
+                    val pulseAnimation = AnimationUtils.loadAnimation(context, R.anim.pulse)
+                    layout.color_toast_image.startAnimation(pulseAnimation)
+
+                    // round background color
+                    setBackgroundAndFilter(
+                        R.drawable.toast_round_background,
+                        noInternetBackgroundToastColor, layout, context
+                    )
+
+                    // Setting up the color for title & Message text
+                    layout.color_toast_text.setTextColor(Color.WHITE)
+                    layout.color_toast_text.text =
+                        if (title.isNullOrBlank()) TOAST_NO_INTERNET else title
+
+                    setDescriptionDetails(font, Color.WHITE, message, layout.color_toast_description)
+
+                    // init toast
+                    val toast = Toast(context.applicationContext)
+                    startTimer(duration, toast)
+
+                    // Setting Toast Gravity
+                    setGravity(position, toast)
+
+                    // Setting layout to toast
+                    toast.view = layout
+                    toast.show()
+                }
+            }
+        }
+
+        fun darkToast(
+            context: Activity,
+            title: String? = null,
+            message: String,
+            style: String,
+            position: Int,
+            duration: Long,
+            font: Typeface?
+        ){
+            layoutInflater = LayoutInflater.from(context)
+            val layout = layoutInflater.inflate(
+                R.layout.full_color_toast,
+                (context).findViewById(R.id.color_toast_view)
+            )
+            when (style) {
+                TOAST_SUCCESS -> {
+                    layout.color_toast_image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_check_green
+                        )
+                    )
+                    DrawableCompat.setTint(
+                        DrawableCompat.wrap(layout.color_toast_image.drawable),
+                        ContextCompat.getColor(context, successToastColor)
+                    )
+                    // Pulse Animation for Icon
+                    val pulseAnimation = AnimationUtils.loadAnimation(context, R.anim.pulse)
+                    layout.color_toast_image.startAnimation(pulseAnimation)
+
+                    // round background color
+                    setBackgroundAndFilter(
+                        R.drawable.toast_round_background,
+                        R.color.dark_bg_color, layout, context
+                    )
+
+                    layout.color_toast_text.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            successToastColor
+                        )
+                    )
+                    layout.color_toast_text.text =
+                        if (title.isNullOrBlank()) TOAST_SUCCESS else title
+
+                    setDescriptionDetails(font, Color.WHITE, message, layout.color_toast_description)
+
+                    // init toast
+                    val toast = Toast(context.applicationContext)
+                    startTimer(duration, toast)
+
+                    // Setting Toast Gravity
+                    setGravity(position, toast)
+
+                    // Setting layout to toast
+                    toast.view = layout
+                    toast.show()
+                }
+                TOAST_FAILED -> {
+                    layout.color_toast_image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_failed
+                        )
+                    )
+                    DrawableCompat.setTint(
+                        DrawableCompat.wrap(layout.color_toast_image.drawable),
+                        ContextCompat.getColor(context, failedToastColor)
+                    )
+                    // Pulse Animation for Icon
+                    val pulseAnimation = AnimationUtils.loadAnimation(context, R.anim.pulse)
+                    layout.color_toast_image.startAnimation(pulseAnimation)
+
+                    // round background color
+                    setBackgroundAndFilter(
+                        R.drawable.toast_round_background,
+                        R.color.dark_bg_color, layout, context
+                    )
+
+                    // Setting up the color for title & Message text
+                    layout.color_toast_text.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            failedToastColor
+                        )
+                    )
+                    layout.color_toast_text.text = if (title.isNullOrBlank()) TOAST_FAILED else title
+
+                    setDescriptionDetails(font, Color.WHITE, message, layout.color_toast_description)
+
+                    // init toast
+                    val toast = Toast(context.applicationContext)
+                    startTimer(duration, toast)
+
+                    // Setting Toast Gravity
+                    setGravity(position, toast)
+
+                    // Setting layout to toast
+                    toast.view = layout
+                    toast.show()
+                }
+                TOAST_NO_INTERNET -> {
+                    layout.color_toast_image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_no_internet
+                        )
+                    )
+                    DrawableCompat.setTint(
+                        DrawableCompat.wrap(layout.color_toast_image.drawable),
+                        ContextCompat.getColor(context, noInternetToastColor)
+                    )
+                    // Pulse Animation for Icon
+                    val pulseAnimation = AnimationUtils.loadAnimation(context, R.anim.pulse)
+                    layout.color_toast_image.startAnimation(pulseAnimation)
+
+                    // round background color
+                    setBackgroundAndFilter(
+                        R.drawable.toast_round_background,
+                        R.color.dark_bg_color, layout, context
+                    )
+
+                    // Setting up the color for title & Message text
+                    layout.color_toast_text.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            noInternetToastColor
+                        )
+                    )
+                    layout.color_toast_text.text =
+                        if (title.isNullOrBlank()) TOAST_NO_INTERNET else title
+
+                    setDescriptionDetails(font, Color.WHITE, message, layout.color_toast_description)
+
+                    // init toast
+                    val toast = Toast(context.applicationContext)
+
+                    //   Setting up the duration
+                    startTimer(duration, toast)
+
+                    // Setting Toast Gravity
+                    setGravity(position, toast)
+
+                    // Setting layout to toast
+                    toast.view = layout
+                    toast.show()
+
+                }
+            }
+        }
+
+        fun darkColorToast(
+            context: Activity,
+            title: String? = null,
+            message: String,
+            style: String,
+            position: Int,
+            duration: Long,
+            font: Typeface?
+        ){
+            layoutInflater = LayoutInflater.from(context)
+            val layout = layoutInflater.inflate(
+                R.layout.custom_toast,
+                (context).findViewById(R.id.custom_toast_view)
+            )
+            when (style) {
+                TOAST_SUCCESS -> {
+                    layout.custom_toast_image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_check_green
+                        )
+                    )
+                    DrawableCompat.setTint(
+                        DrawableCompat.wrap(layout.custom_toast_image.drawable),
+                        ContextCompat.getColor(context, successToastColor)
+                    )
+                    // Pulse Animation for Icon
+                    startPulseAnimation(context, layout)
+
+                    // Background tint color for side view
+                    layout.colorView.backgroundTintList =
+                        ContextCompat.getColorStateList(context, successToastColor)
+
+                    // round background color
+                    setBackgroundAndFilter(
+                        R.drawable.toast_round_background,
+                        R.color.dark_bg_color, layout, context
+                    )
+
+                    // Setting up the color for title & Message text
+                    layout.custom_toast_text.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            successToastColor
+                        )
+                    )
+                    layout.custom_toast_text.text =
+                        if (title.isNullOrBlank()) TOAST_SUCCESS else title
+
+                    setDescriptionDetails(font, Color.WHITE, message, layout.custom_toast_description)
+
+                    // init toast
+                    val toast = Toast(context.applicationContext)
+                    startTimer(duration, toast)
+
+                    // Setting Toast Gravity
+                    setGravity(position, toast)
+
+                    // Setting layout to toast
+                    toast.view = layout
+                    toast.show()
+                }
+                TOAST_FAILED -> {
+                    layout.custom_toast_image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_failed
+                        )
+                    )
+                    DrawableCompat.setTint(
+                        DrawableCompat.wrap(layout.custom_toast_image.drawable),
+                        ContextCompat.getColor(context, failedToastColor)
+                    )
+                    startPulseAnimation(context, layout)
+                    layout.colorView.backgroundTintList =
+                        ContextCompat.getColorStateList(context, failedToastColor)
+
+                    setBackgroundAndFilter(
+                        R.drawable.toast_round_background,
+                        R.color.dark_bg_color, layout, context
+                    )
+
+                    layout.custom_toast_text.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            failedToastColor
+                        )
+                    )
+                    layout.custom_toast_text.text =
+                        if (title.isNullOrBlank()) TOAST_FAILED else title
+
+                    setDescriptionDetails(font, Color.WHITE, message, layout.custom_toast_description)
+
+                    val toast = Toast(context.applicationContext)
+                    startTimer(duration, toast)
+
+                    setGravity(position, toast)
+                    toast.view = layout//setting the view of custom toast layout
+                    toast.show()
+                }
+                TOAST_NO_INTERNET -> {
+                    layout.custom_toast_image.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_no_internet
+                        )
+                    )
+                    DrawableCompat.setTint(
+                        DrawableCompat.wrap(layout.custom_toast_image.drawable),
+                        ContextCompat.getColor(context, noInternetToastColor)
+                    )
+                    startPulseAnimation(context, layout)
+                    layout.colorView.backgroundTintList =
+                        ContextCompat.getColorStateList(context, noInternetToastColor)
+
+                    setBackgroundAndFilter(
+                        R.drawable.toast_round_background,
+                        R.color.dark_bg_color, layout, context
+                    )
+
+                    layout.custom_toast_text.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            noInternetToastColor
+                        )
+                    )
+                    layout.custom_toast_text.text =
+                        if (title.isNullOrBlank()) TOAST_NO_INTERNET else title
+
+                    setDescriptionDetails(font, Color.WHITE, message, layout.custom_toast_description)
+                    val toast = Toast(context.applicationContext)
+                    startTimer(duration, toast)
+
+                    setGravity(position, toast)
+                    toast.view = layout//setting the view of custom toast layout
+                    toast.show()
+                }
+            }
+        }
+
         private fun startTimer(duration: Long, toast: Toast) {
             val timer = object : CountDownTimer(duration, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
